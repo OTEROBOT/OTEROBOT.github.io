@@ -1,13 +1,400 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Yotvarit Artnonla - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1238 50%, #2d1b4e 100%);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #stars, #stars2, #stars3 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #stars {
+            background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVQIW2P4//+/AwMDAwMDAQAmBgP/e3e2MQAAAABJRU5ErkJggg==') repeat;
+            animation: stars 100s linear infinite;
+        }
+
+        #stars2 {
+            background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVQIW2P4//+/AwMDAwMDAQAmBgP/e3e2MQAAAABJRU5ErkJggg==') repeat;
+            animation: stars 150s linear infinite;
+            opacity: 0.6;
+        }
+
+        #stars3 {
+            background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVQIW2P4//+/AwMDAwMDAQAmBgP/e3e2MQAAAABJRU5ErkJggg==') repeat;
+            animation: stars 200s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes stars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-2000px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid rgba(138, 43, 226, 0.5);
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.6);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #a8b2d1;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(138, 43, 226, 0.4);
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #8a2be2;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+        }
+
+        .project-card h3 {
+            color: #9d7cbf;
+            margin-bottom: 10px;
+        }
+
+        .project-card a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .project-card a:hover {
+            color: #8a2be2;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .contact-item {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.5);
+        }
+
+        .contact-item a {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            background: rgba(138, 43, 226, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #8a2be2;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .section { padding: 20px; }
+        }
+    </style>
 </head>
 <body>
-    <h1>My name is ยศวริศ อาจนนท์ลา รหัส 66040233110</h1>
-    <h2>Fist page from GitHub</h2>
-    <a href="https://hosting.udru.ac.th/it66040233110/">my info</a>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <div class="container">
+        <header>
+            <div class="profile-img"></div>
+            <h1>Yotvarit Artnonla</h1>
+            <h1>ยศวริศ อาจนนท์ลา</h1>
+            <p class="subtitle">นักศึกษาเทคโนโลยีสารสนเทศ | IT Student | Developer</p>
+            <p class="subtitle">🎓 มหาวิทยาลัยราชภัฏอุดรธานี (ศูนย์สามพร้าว) | ปี 3</p>
+        </header>
+
+        <div class="section">
+            <h2>👤 ข้อมูลส่วนตัว</h2>
+            <div class="info-grid">
+                <div class="info-item"><strong>เพศ:</strong> ชาย</div>
+                <div class="info-item"><strong>วันเกิด:</strong> 1 มกราคม 2548</div>
+                <div class="info-item"><strong>อายุ:</strong> 20 ปี</div>
+                <div class="info-item"><strong>สัญชาติ:</strong> ไทย</div>
+                <div class="info-item"><strong>สถานะ:</strong> โสด</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 ความสนใจ</h2>
+            <div class="skills-grid">
+                <div class="skill-tag">🤖 AI & Technology</div>
+                <div class="skill-tag">🌐 Web Development</div>
+                <div class="skill-tag">📈 Investing</div>
+                <div class="skill-tag">💰 Global Finance</div>
+                <div class="skill-tag">🎨 Art & Graphics</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ ทักษะ</h2>
+            <h3 style="color: #9d7cbf; margin-top: 20px;">Programming</h3>
+            <div class="skills-grid">
+                <div class="skill-tag">Python</div>
+                <div class="skill-tag">Java</div>
+                <div class="skill-tag">HTML/CSS</div>
+                <div class="skill-tag">JavaScript</div>
+                <div class="skill-tag">C++</div>
+                <div class="skill-tag">C#</div>
+                <div class="skill-tag">Lua</div>
+                <div class="skill-tag">Dart</div>
+            </div>
+
+            <h3 style="color: #9d7cbf; margin-top: 30px;">Tools & Software</h3>
+            <div class="skills-grid">
+                <div class="skill-tag">Git & GitHub</div>
+                <div class="skill-tag">VS Code</div>
+                <div class="skill-tag">Unity</div>
+                <div class="skill-tag">Figma</div>
+                <div class="skill-tag">Adobe Photoshop</div>
+                <div class="skill-tag">Adobe Premiere Pro</div>
+                <div class="skill-tag">Blender</div>
+                <div class="skill-tag">SQL</div>
+            </div>
+
+            <h3 style="color: #9d7cbf; margin-top: 30px;">AI Tools</h3>
+            <div class="skills-grid">
+                <div class="skill-tag">ChatGPT</div>
+                <div class="skill-tag">Claude AI</div>
+                <div class="skill-tag">Gemini</div>
+                <div class="skill-tag">Grok</div>
+                <div class="skill-tag">Weights & Biases</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 ผลงาน</h2>
+            
+            <div class="project-card">
+                <h3>🛒 E-Commerce Website</h3>
+                <p>เว็บไซต์ขายของออนไลน์</p>
+                <a href="https://github.com/OTEROBOT/e-commerce" target="_blank">GitHub Repository →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🐕 ระบบจัดการฟาร์มสุนัข</h3>
+                <p>สร้างด้วย Visual Studio Community 2022 (C#)</p>
+                <a href="https://github.com/OTEROBOT/SSMS_vscode_IT27308" target="_blank">GitHub Repository →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>📱 แอปแผนที่</h3>
+                <p>พัฒนาด้วย Flutter (Dart)</p>
+                <a href="https://github.com/OTEROBOT/flutter_application_1" target="_blank">GitHub Repository →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🤖 AI ทำนายโรคเบาหวาน</h3>
+                <p>Machine Learning Data Project</p>
+                <a href="https://github.com/OTEROBOT/AI_UDRU68IT" target="_blank">GitHub Repository →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🎮 Running Time Parkour</h3>
+                <p>เกม 3D สำหรับ PC (Unity)</p>
+                <a href="https://www.facebook.com/share/v/16bavYrKfE/" target="_blank">ดูเกม →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🌙 Midnight Obby</h3>
+                <p>เกมใน Roblox</p>
+                <a href="https://www.roblox.com/th/games/124672032385982/Midnight-Obby" target="_blank">เล่นเกม →</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎓 การศึกษา</h2>
+            
+            <div class="project-card">
+                <h3>มหาวิทยาลัยราชภัฏอุดรธานี</h3>
+                <p>📚 คณะวิทยาศาสตร์ สาขาเทคโนโลยีสารสนเทศ (IT)</p>
+                <p>📍 ศูนย์สามพร้าว</p>
+                <p>📅 2566 - ปัจจุบัน (ปี 3)</p>
+            </div>
+
+            <div class="project-card">
+                <h3>วิทยาลัยอาชีวศึกษาอุดรธานี</h3>
+                <p>📚 ปวช. เทคโนโลยีสารสนเทศ</p>
+            </div>
+
+            <div class="project-card">
+                <h3>โรงเรียนอุดรพิทยานุกูล</h3>
+                <p>📚 มัธยมศึกษาตอนปลาย</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏆 กิจกรรมและผลงาน</h2>
+            <div class="skills-grid">
+                <div class="skill-tag">เยาวชนสื่อคุณธรรม</div>
+                <div class="skill-tag">แข่งขันหุ่นยนต์ Sumo</div>
+                <div class="skill-tag">WRO Thailand</div>
+                <div class="skill-tag">WRO 2016 Regional</div>
+                <div class="skill-tag">WRO 2017 Regional</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 เป้าหมายในอนาคต</h2>
+            <p style="line-height: 1.8;">
+                💼 นักลงทุนและผู้ประกอบการ - ปัจจุบันลงทุนในหุ้น, Forex, Crypto (BTC, ETH), ทอง<br>
+                🏢 ดูแลและบริหารจัดการหอพัก (อสังหาริมทรัพย์)<br>
+                🛍️ มีประสบการณ์ขายสินค้าออนไลน์ผ่าน TikTok, Shopee, Lazada, Line My Shop<br>
+                🚀 มุ่งมั่นก่อตั้งแบรนด์และบริษัทของตัวเอง
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>📞 ติดต่อ</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <strong>📧 Email</strong><br>
+                    <a href="mailto:66040233110@udru.ac.th">66040233110@udru.ac.th</a>
+                </div>
+                <div class="contact-item">
+                    <strong>💻 GitHub</strong><br>
+                    <a href="https://github.com/OTEROBOT" target="_blank">OTEROBOT</a>
+                </div>
+                <div class="contact-item">
+                    <strong>💼 LinkedIn</strong><br>
+                    <a href="https://www.linkedin.com/in/yotvarit-artnonla-246584348/" target="_blank">Yotvarit Artnonla</a>
+                </div>
+                <div class="contact-item">
+                    <strong>📘 Facebook</strong><br>
+                    <a href="https://www.facebook.com/ys.w.ris.xac.nnth.la?locale=th_TH" target="_blank">ยศวริศ อาจนนท์ลา</a>
+                </div>
+                <div class="contact-item">
+                    <strong>📱 เบอร์โทร</strong><br>
+                    099-068-3325
+                </div>
+                <div class="contact-item">
+                    <strong>📍 ที่อยู่</strong><br>
+                    อุดรธานี, ประเทศไทย
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
