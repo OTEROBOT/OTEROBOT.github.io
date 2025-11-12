@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yotvarit Artnonla - Portfolio</title>
+    <title>Yotvarit Artnonla - Cosmic Portfolio</title>
+    
+    <!-- Google Fonts: Space-themed futuristic fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary: #8a2be2;
+            --secondary: #667eea;
+            --accent: #764ba2;
+            --glow: rgba(138, 43, 226, 0.8);
+            --text: #e0d9ff;
+            --bg-dark: #0a0e27;
+            --bg-darker: #0d051a;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,231 +29,445 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1238 50%, #2d1b4e 100%);
-            color: #fff;
+            font-family: 'Exo 2', sans-serif;
+            background: radial-gradient(ellipse at center, #1a1238 0%, #0a0e27 50%, #000 100%);
+            color: var(--text);
             overflow-x: hidden;
             position: relative;
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+
+        /* === COSMIC BACKGROUND LAYERS === */
+        .cosmic-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #nebula {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(118, 75, 162, 0.1) 0%, transparent 60%);
+            animation: nebulaPulse 20s ease-in-out infinite alternate;
+            opacity: 0.7;
         }
 
         #stars, #stars2, #stars3 {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        #stars {
-            background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVQIW2P4//+/AwMDAwMDAQAmBgP/e3e2MQAAAABJRU5ErkJggg==') repeat;
-            animation: stars 100s linear infinite;
+            background: transparent;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 30px, #eee, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: starfield 120s linear infinite;
         }
 
         #stars2 {
-            background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVQIW2P4//+/AwMDAwMDAQAmBgP/e3e2MQAAAABJRU5ErkJggg==') repeat;
-            animation: stars 150s linear infinite;
+            background-size: 300px 150px;
+            animation-duration: 180s;
             opacity: 0.6;
         }
 
         #stars3 {
-            background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVQIW2P4//+/AwMDAwMDAQAmBgP/e3e2MQAAAABJRU5ErkJggg==') repeat;
-            animation: stars 200s linear infinite;
+            background-size: 400px 200px;
+            animation-duration: 240s;
             opacity: 0.3;
+            filter: blur(0.5px);
         }
 
-        @keyframes stars {
-            from { transform: translateY(0); }
-            to { transform: translateY(-2000px); }
+        @keyframes nebulaPulse {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+            100% { transform: scale(1.1) rotate(1deg); opacity: 0.8; }
         }
 
+        @keyframes starfield {
+            from { transform: translateY(0) translateX(0); }
+            to { transform: translateY(-2000px) translateX(-2000px); }
+        }
+
+        /* === FLOATING PARTICLES === */
+        .particle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s infinite linear;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* === MAIN CONTAINER === */
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
-            z-index: 1;
+            z-index: 10;
         }
 
+        /* === HEADER WITH ORBITAL PROFILE === */
         header {
             text-align: center;
-            padding: 80px 20px 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 100px 30px 60px;
+            margin-bottom: 50px;
+            position: relative;
+            isolation: isolate;
+        }
+
+        .orbit-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 0 auto 30px;
+            animation: orbitRotate 30s linear infinite;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
+        }
+
+        .orbit-ring:nth-child(1) { 
+            transform: rotate(30deg);
+            animation: ringPulse 8s ease-in-out infinite;
+        }
+        .orbit-ring:nth-child(2) { 
+            transform: rotate(75deg);
+            animation: ringPulse 12s ease-in-out infinite reverse;
+        }
+
+        @keyframes orbitRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1) rotate(var(--rotate, 0deg)); }
+            50% { opacity: 0.8; transform: scale(1.1) rotate(var(--rotate, 0deg)); }
         }
 
         .profile-img {
-    width: 200px; /* ✅ ขยายขนาดวงกลมให้ใหญ่ขึ้น */
-    height: 200px; /* ✅ ขยายขนาดวงกลมให้ใหญ่ขึ้น */
+            width: 220px;
+            height: 220px;
+            background: url('OTE.png') center/cover no-repeat;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            z-index: 2;
+            margin: 0 auto;
+            box-shadow: 
+                0 0 40px rgba(138, 43, 226, 0.8),
+                0 0 80px rgba(102, 126, 234, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: profileGlow 4s ease-in-out infinite alternate;
+            transition: all 0.4s ease;
+        }
 
-    background-image: url('OTE.png'); /* ✅ ใส่ภาพ OTE.png เป็นพื้นหลังในวงกลม */
-    background-size: cover; /* ✅ ให้ภาพขยายเต็มวงกลม */
-    background-position: center; /* ✅ จัดภาพให้อยู่ตรงกลางวงกลม */
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 60px rgba(138, 43, 226, 1),
+                0 0 100px rgba(102, 126, 234, 0.6);
+        }
 
-    border-radius: 50%;
-    border: 4px solid rgba(138, 43, 226, 0.5);
-    margin-bottom: 20px;
-    box-shadow: 0 0 30px rgba(138, 43, 226, 0.6);
-
-    margin-left: auto;  /* ✅ จัดตำแหน่งวงกลมให้อยู่ตรงกลาง */
-    margin-right: auto; /* ✅ จัดตำแหน่งวงกลมให้อยู่ตรงกลาง */
-    display: block; /* ✅ เพื่อให้ margin auto ทำงานได้ */
-}
-
+        @keyframes profileGlow {
+            0% { box-shadow: 0 0 40px rgba(138, 43, 226, 0.8), 0 0 80px rgba(102, 126, 234, 0.4); }
+            100% { box-shadow: 0 0 60px rgba(138, 43, 226, 1), 0 0 120px rgba(102, 126, 234, 0.6); }
+        }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.8em;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #a78bfa, #8a2be2, #667eea, #5eead4);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            animation: titleShine 6s linear infinite;
+        }
+
+        @keyframes titleShine {
+            0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+            50% { filter: brightness(1.3) hue-rotate(20deg); }
         }
 
         .subtitle {
-            font-size: 1.2em;
-            color: #a8b2d1;
-            margin-bottom: 20px;
+            font-size: 1.3em;
+            color: #c8b6ff;
+            margin: 8px 0;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
         }
 
+        /* === SECTION CARDS WITH GLASSMORPHISM + HOVER ORBIT === */
         .section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            margin-bottom: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: rgba(20, 15, 40, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 45px;
+            margin-bottom: 35px;
+            border-radius: 25px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(138, 43, 226, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(138, 43, 226, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
         }
 
         .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 48px rgba(138, 43, 226, 0.4);
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: 
+                0 20px 50px rgba(138, 43, 226, 0.3),
+                0 0 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(138, 43, 226, 0.5);
+        }
+
+        .section:hover::before {
+            opacity: 1;
         }
 
         h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #8a2be2;
-            text-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.4em;
+            margin-bottom: 25px;
+            color: #d8b4fe;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
+            position: relative;
+            display: inline-block;
         }
 
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            border-radius: 2px;
+        }
+
+        /* === SKILLS WITH ORBITAL TAGS === */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
         }
 
         .skill-tag {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
-            padding: 12px 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.25));
+            padding: 16px 24px;
+            border-radius: 50px;
             text-align: center;
             border: 1px solid rgba(138, 43, 226, 0.3);
-            transition: all 0.3s;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.4), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+            z-index: -1;
         }
 
         .skill-tag:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px) scale(1.08);
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.7);
+            border-color: var(--primary);
         }
 
+        .skill-tag:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* === PROJECT CARDS WITH 3D TILT === */
         .project-card {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+            padding: 28px;
+            border-radius: 20px;
+            margin-bottom: 22px;
             border: 1px solid rgba(138, 43, 226, 0.3);
-            transition: all 0.3s;
+            transition: all 0.4s ease;
+            position: relative;
+            transform-style: preserve-3d;
         }
 
         .project-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateZ(20px);
+            box-shadow: 
+                0 20px 40px rgba(138, 43, 226, 0.4),
+                0 0 40px rgba(102, 126, 234, 0.3);
         }
 
         .project-card h3 {
-            color: #9d7cbf;
-            margin-bottom: 10px;
+            color: #c8b6ff;
+            margin-bottom: 12px;
+            font-size: 1.4em;
         }
 
         .project-card a {
-            color: #667eea;
+            color: #9d7cff;
             text-decoration: none;
-            transition: color 0.3s;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
         }
 
-        .project-card a:hover {
-            color: #8a2be2;
+        .project-card a::after {
+            content: '→';
+            margin-left: 8px;
+            opacity: 0;
+            transition: all 0.3s;
         }
 
+        .project-card a:hover::after {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        /* === CONTACT WITH HOVER ICONS === */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
         }
 
         .contact-item {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-            padding: 20px;
-            border-radius: 15px;
+            padding: 25px;
+            border-radius: 20px;
             border: 1px solid rgba(138, 43, 226, 0.3);
-            transition: all 0.3s;
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item i {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: var(--primary);
+            transition: all 0.4s;
         }
 
         .contact-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(138, 43, 226, 0.5);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.6);
+        }
+
+        .contact-item:hover i {
+            transform: scale(1.3) rotate(360deg);
+            color: #fff;
+            text-shadow: 0 0 20px var(--glow);
         }
 
         .contact-item a {
-            color: #667eea;
-            text-decoration: none;
+            color: #b19cff;
             word-break: break-all;
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+        .contact-item a:hover {
+            color: #fff;
         }
 
-        .info-item {
-            background: rgba(138, 43, 226, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 3px solid #8a2be2;
+        /* === SCROLL INDICATOR === */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(138, 43, 226, 0.2);
+            z-index: 100;
+            transform-origin: left;
+            transform: scaleX(0);
         }
 
+        /* === RESPONSIVE === */
         @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            .orbit-container { width: 200px; height: 200px; }
+            .profile-img { width: 170px; height: 170px; }
+            .section { padding: 25px; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
             h1 { font-size: 2em; }
             .section { padding: 20px; }
+            .contact-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div id="stars"></div>
-    <div id="stars2"></div>
-    <div id="stars3"></div>
+    <!-- Cosmic Background Layers -->
+    <div class="cosmic-bg" id="nebula"></div>
+    <div class="cosmic-bg" id="stars"></div>
+    <div class="cosmic-bg" id="stars2"></div>
+    <div class="cosmic-bg" id="stars3"></div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
 
     <div class="container">
         <header>
-            <div class="profile-img"></div>
+            <div class="orbit-container">
+                <div class="orbit-ring" style="--rotate: 30deg;"></div>
+                <div class="orbit-ring" style="--rotate: 75deg;"></div>
+                <div class="profile-img"></div>
+            </div>
             <h1>Yotvarit Artnonla</h1>
             <h1>ยศวริศ อาจนนท์ลา</h1>
-            <p class="subtitle">นักศึกษาเทคโนโลยีสารสนเทศ | IT Student | Developer</p>
-            <p class="subtitle">🎓 มหาวิทยาลัยราชภัฏอุดรธานี (ศูนย์สามพร้าว) | ปี 3</p>
+            <p class="subtitle">นักศึกษาเทคโนโลยีสารสนเทศ | IT Student | Cosmic Developer</p>
+            <p class="subtitle">มหาวิทยาลัยราชภัฏอุดรธานี (ศูนย์สามพร้าว) | ปี 3</p>
         </header>
 
         <div class="section">
-            <h2>👤 ข้อมูลส่วนตัว</h2>
+            <h2>ข้อมูลส่วนตัว</h2>
             <div class="info-grid">
                 <div class="info-item"><strong>เพศ:</strong> ชาย</div>
                 <div class="info-item"><strong>วันเกิด:</strong> 1 มกราคม 2548</div>
@@ -247,19 +478,19 @@
         </div>
 
         <div class="section">
-            <h2>💡 ความสนใจ</h2>
+            <h2>ความสนใจ</h2>
             <div class="skills-grid">
-                <div class="skill-tag">🤖 AI & Technology</div>
-                <div class="skill-tag">🌐 Web Development</div>
-                <div class="skill-tag">📈 Investing</div>
-                <div class="skill-tag">💰 Global Finance</div>
-                <div class="skill-tag">🎨 Art & Graphics</div>
+                <div class="skill-tag">AI & Technology</div>
+                <div class="skill-tag">Web Development</div>
+                <div class="skill-tag">Investing</div>
+                <div class="skill-tag">Global Finance</div>
+                <div class="skill-tag">Art & Graphics</div>
             </div>
         </div>
 
         <div class="section">
-            <h2>🛠️ ทักษะ</h2>
-            <h3 style="color: #9d7cbf; margin-top: 20px;">Programming</h3>
+            <h2>ทักษะ</h2>
+            <h3 style="color: #c8b6ff; margin: 25px 0 15px; font-size: 1.5em;">Programming</h3>
             <div class="skills-grid">
                 <div class="skill-tag">Python</div>
                 <div class="skill-tag">Java</div>
@@ -271,19 +502,19 @@
                 <div class="skill-tag">Dart</div>
             </div>
 
-            <h3 style="color: #9d7cbf; margin-top: 30px;">Tools & Software</h3>
+            <h3 style="color: #c8b6ff; margin: 35px 0 15px; font-size: 1.5em;">Tools & Software</h3>
             <div class="skills-grid">
                 <div class="skill-tag">Git & GitHub</div>
                 <div class="skill-tag">VS Code</div>
                 <div class="skill-tag">Unity</div>
                 <div class="skill-tag">Figma</div>
-                <div class="skill-tag">Adobe Photoshop</div>
-                <div class="skill-tag">Adobe Premiere Pro</div>
+                <div class="skill-tag">Photoshop</div>
+                <div class="skill-tag">Premiere Pro</div>
                 <div class="skill-tag">Blender</div>
                 <div class="skill-tag">SQL</div>
             </div>
 
-            <h3 style="color: #9d7cbf; margin-top: 30px;">AI Tools</h3>
+            <h3 style="color: #c8b6ff; margin: 35px 0 15px; font-size: 1.5em;">AI Tools</h3>
             <div class="skills-grid">
                 <div class="skill-tag">ChatGPT</div>
                 <div class="skill-tag">Claude AI</div>
@@ -294,47 +525,47 @@
         </div>
 
         <div class="section">
-            <h2>🚀 ผลงาน</h2>
+            <h2>ผลงาน</h2>
             
             <div class="project-card">
                 <h3>🛒 E-Commerce Website</h3>
-                <p>เว็บไซต์ขายของออนไลน์</p>
-                <a href="https://github.com/OTEROBOT/e-commerce" target="_blank">GitHub Repository →</a>
+                <p>เว็บไซต์ขายของออนไลน์เต็มรูปแบบ</p>
+                <a href="https://github.com/OTEROBOT/e-commerce" target="_blank">GitHub Repository</a>
             </div>
 
             <div class="project-card">
                 <h3>🐕 ระบบจัดการฟาร์มสุนัข</h3>
-                <p>สร้างด้วย Visual Studio Community 2022 (C#)</p>
-                <a href="https://github.com/OTEROBOT/SSMS_vscode_IT27308" target="_blank">GitHub Repository →</a>
+                <p>พัฒนาด้วย C# + Visual Studio 2022</p>
+                <a href="https://github.com/OTEROBOT/SSMS_vscode_IT27308" target="_blank">GitHub Repository</a>
             </div>
 
             <div class="project-card">
                 <h3>📱 แอปแผนที่</h3>
-                <p>พัฒนาด้วย Flutter (Dart)</p>
-                <a href="https://github.com/OTEROBOT/flutter_application_1" target="_blank">GitHub Repository →</a>
+                <p>Flutter + Dart Cross-platform</p>
+                <a href="https://github.com/OTEROBOT/flutter_application_1" target="_blank">GitHub Repository</a>
             </div>
 
             <div class="project-card">
                 <h3>🤖 AI ทำนายโรคเบาหวาน</h3>
-                <p>Machine Learning Data Project</p>
-                <a href="https://github.com/OTEROBOT/AI_UDRU68IT" target="_blank">GitHub Repository →</a>
+                <p>Machine Learning + Data Analysis</p>
+                <a href="https://github.com/OTEROBOT/AI_UDRU68IT" target="_blank">GitHub Repository</a>
             </div>
 
             <div class="project-card">
                 <h3>🎮 Running Time Parkour</h3>
-                <p>เกม 3D สำหรับ PC (Unity)</p>
-                <a href="https://www.facebook.com/share/v/16bavYrKfE/" target="_blank">ดูเกม →</a>
+                <p>เกม 3D PC ด้วย Unity Engine</p>
+                <a href="https://www.facebook.com/share/v/16bavYrKfE/" target="_blank">ดูเดโมเกม</a>
             </div>
 
             <div class="project-card">
                 <h3>🌙 Midnight Obby</h3>
-                <p>เกมใน Roblox</p>
-                <a href="https://www.roblox.com/th/games/124672032385982/Midnight-Obby" target="_blank">เล่นเกม →</a>
+                <p>เกม Roblox Multiplayer</p>
+                <a href="https://www.roblox.com/th/games/124672032385982/Midnight-Obby" target="_blank">เล่นเลย</a>
             </div>
         </div>
 
         <div class="section">
-            <h2>🎓 การศึกษา</h2>
+            <h2>การศึกษา</h2>
             
             <div class="project-card">
                 <h3>มหาวิทยาลัยราชภัฏอุดรธานี</h3>
@@ -355,7 +586,7 @@
         </div>
 
         <div class="section">
-            <h2>🏆 กิจกรรมและผลงาน</h2>
+            <h2>กิจกรรมและผลงาน</h2>
             <div class="skills-grid">
                 <div class="skill-tag">เยาวชนสื่อคุณธรรม</div>
                 <div class="skill-tag">แข่งขันหุ่นยนต์ Sumo</div>
@@ -366,44 +597,103 @@
         </div>
 
         <div class="section">
-            <h2>🎯 เป้าหมายในอนาคต</h2>
-            <p style="line-height: 1.8;">
-                💼 นักลงทุนและผู้ประกอบการ - ปัจจุบันลงทุนในหุ้น, Forex, Crypto (BTC, ETH), ทอง<br>
+            <h2>เป้าหมายในอนาคต</h2>
+            <p style="line-height: 2; font-size: 1.1em; color: #e0d9ff;">
+                💼 <strong>นักลงทุนและผู้ประกอบการ</strong> - ปัจจุบันลงทุนในหุ้น, Forex, Crypto (BTC, ETH), ทอง<br>
                 🏢 ดูแลและบริหารจัดการหอพัก (อสังหาริมทรัพย์)<br>
                 🛍️ มีประสบการณ์ขายสินค้าออนไลน์ผ่าน TikTok, Shopee, Lazada, Line My Shop<br>
-                🚀 มุ่งมั่นก่อตั้งแบรนด์และบริษัทของตัวเอง
+                🚀 <strong>มุ่งมั่นก่อตั้งแบรนด์และบริษัทของตัวเอง</strong>
             </p>
         </div>
 
         <div class="section">
-            <h2>📞 ติดต่อ</h2>
+            <h2>ติดต่อ</h2>
             <div class="contact-grid">
                 <div class="contact-item">
-                    <strong>📧 Email</strong><br>
+                    <i class="fas fa-envelope"></i>
+                    <strong>อีเมล</strong><br>
                     <a href="mailto:66040233110@udru.ac.th">66040233110@udru.ac.th</a>
                 </div>
                 <div class="contact-item">
-                    <strong>💻 GitHub</strong><br>
+                    <i class="fab fa-github"></i>
+                    <strong>GitHub</strong><br>
                     <a href="https://github.com/OTEROBOT" target="_blank">OTEROBOT</a>
                 </div>
                 <div class="contact-item">
-                    <strong>💼 LinkedIn</strong><br>
+                    <i class="fab fa-linkedin"></i>
+                    <strong>LinkedIn</strong><br>
                     <a href="https://www.linkedin.com/in/yotvarit-artnonla-246584348/" target="_blank">Yotvarit Artnonla</a>
                 </div>
                 <div class="contact-item">
-                    <strong>📘 Facebook</strong><br>
+                    <i class="fab fa-facebook"></i>
+                    <strong>Facebook</strong><br>
                     <a href="https://www.facebook.com/ys.w.ris.xac.nnth.la?locale=th_TH" target="_blank">ยศวริศ อาจนนท์ลา</a>
                 </div>
                 <div class="contact-item">
-                    <strong>📱 เบอร์โทร</strong><br>
+                    <i class="fas fa-phone"></i>
+                    <strong>เบอร์โทร</strong><br>
                     099-068-3325
                 </div>
                 <div class="contact-item">
-                    <strong>📍 ที่อยู่</strong><br>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <strong>ที่อยู่</strong><br>
                     อุดรธานี, ประเทศไทย
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Floating Particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 4 + 1;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 25000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (document.documentElement.scrollTop || document.body.scrollTop) / 
+                ((document.documentElement.scrollHeight || document.body.scrollHeight) - document.documentElement.clientHeight) * 100;
+            document.getElementById('scrollIndicator').style.transform = `scaleX(${scrollPercent / 100})`;
+        });
+
+        // Smooth reveal on scroll (optional enhancement)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section, .project-card, .skill-tag').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
