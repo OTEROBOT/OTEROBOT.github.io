@@ -2,14 +2,18 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#8a2be2">
     <title>Yotvarit Artnonla - Cosmic Portfolio</title>
     
-    <!-- Google Fonts: Space-themed futuristic fonts -->
+    <!-- Preload รูปโปรไฟล์ -->
+    <link rel="preload" href="images/OTE.png" as="image">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     
     <style>
         :root {
@@ -22,10 +26,16 @@
             --bg-darker: #0d051a;
         }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
@@ -36,15 +46,19 @@
             position: relative;
             min-height: 100vh;
             background-attachment: fixed;
+            line-height: 1.6;
         }
 
-        /* === COSMIC BACKGROUND LAYERS === */
+        /* === COSMIC BACKGROUND (GPU) === */
         .cosmic-bg {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none;
             z-index: 0;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            will-change: transform;
         }
 
         #nebula {
@@ -57,7 +71,6 @@
         }
 
         #stars, #stars2, #stars3 {
-            background: transparent;
             background-image: 
                 radial-gradient(2px 2px at 20px 30px, #eee, transparent),
                 radial-gradient(2px 2px at 40px 70px, #fff, transparent),
@@ -67,20 +80,11 @@
             background-repeat: repeat;
             background-size: 200px 100px;
             animation: starfield 120s linear infinite;
+            will-change: transform;
         }
 
-        #stars2 {
-            background-size: 300px 150px;
-            animation-duration: 180s;
-            opacity: 0.6;
-        }
-
-        #stars3 {
-            background-size: 400px 200px;
-            animation-duration: 240s;
-            opacity: 0.3;
-            filter: blur(0.5px);
-        }
+        #stars2 { background-size: 300px 150px; animation-duration: 180s; opacity: 0.6; }
+        #stars3 { background-size: 400px 200px; animation-duration: 240s; opacity: 0.3; filter: blur(0.5px); }
 
         @keyframes nebulaPulse {
             0% { transform: scale(1) rotate(0deg); opacity: 0.6; }
@@ -92,46 +96,37 @@
             to { transform: translateY(-2000px) translateX(-2000px); }
         }
 
-        /* === FLOATING PARTICLES === */
+        /* === PARTICLES (Optimized) === */
         .particle {
             position: absolute;
             background: #fff;
             border-radius: 50%;
             pointer-events: none;
-            animation: float 15s infinite linear;
             box-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) translateX(100px) rotate(360deg); opacity: 0; }
+            will-change: transform, opacity;
         }
 
         /* === MAIN CONTAINER === */
         .container {
             max-width: 1300px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 16px;
             position: relative;
             z-index: 10;
         }
 
-        /* === HEADER WITH ORBITAL PROFILE === */
+        /* === HEADER === */
         header {
             text-align: center;
-            padding: 100px 30px 60px;
-            margin-bottom: 50px;
-            position: relative;
-            isolation: isolate;
+            padding: 80px 20px 50px;
+            margin-bottom: 40px;
         }
 
         .orbit-container {
             position: relative;
             width: 260px;
             height: 260px;
-            margin: 0 auto 30px;
+            margin: 0 auto 28px;
             animation: orbitRotate 30s linear infinite;
         }
 
@@ -144,20 +139,10 @@
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
         }
 
-        .orbit-ring:nth-child(1) { 
-            transform: rotate(30deg);
-            animation: ringPulse 8s ease-in-out infinite;
-        }
-        .orbit-ring:nth-child(2) { 
-            transform: rotate(75deg);
-            animation: ringPulse 12s ease-in-out infinite reverse;
-        }
+        .orbit-ring:nth-child(1) { transform: rotate(30deg); animation: ringPulse 8s ease-in-out infinite; }
+        .orbit-ring:nth-child(2) { transform: rotate(75deg); animation: ringPulse 12s ease-in-out infinite reverse; }
 
-        @keyframes orbitRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
+        @keyframes orbitRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes ringPulse {
             0%, 100% { opacity: 0.3; transform: scale(1) rotate(var(--rotate, 0deg)); }
             50% { opacity: 0.8; transform: scale(1.1) rotate(var(--rotate, 0deg)); }
@@ -166,7 +151,7 @@
         .profile-img {
             width: 220px;
             height: 220px;
-            background: url('https://i.imgur.com/0nYqV8Y.jpg') center/cover no-repeat;
+            background: url('images/OTE.png') center/cover no-repeat;
             border-radius: 50%;
             border: 5px solid transparent;
             background-clip: padding-box;
@@ -179,13 +164,12 @@
                 inset 0 0 20px rgba(255, 255, 255, 0.1);
             animation: profileGlow 4s ease-in-out infinite alternate;
             transition: all 0.4s ease;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .profile-img:hover {
             transform: scale(1.05);
-            box-shadow: 
-                0 0 60px rgba(138, 43, 226, 1),
-                0 0 100px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 60px rgba(138, 43, 226, 1), 0 0 100px rgba(102, 126, 234, 0.6);
         }
 
         @keyframes profileGlow {
@@ -195,8 +179,8 @@
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.8em;
-            margin: 15px 0;
+            font-size: clamp(2.2rem, 8vw, 3.8rem);
+            margin: 12px 0;
             background: linear-gradient(135deg, #a78bfa, #8a2be2, #667eea, #5eead4);
             -webkit-background-clip: text;
             background-clip: text;
@@ -211,28 +195,33 @@
         }
 
         .subtitle {
-            font-size: 1.3em;
+            font-size: clamp(1rem, 3vw, 1.3rem);
             color: #c8b6ff;
-            margin: 8px 0;
+            margin: 6px 0;
             letter-spacing: 1px;
             text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
         }
 
-        /* === SECTION CARDS WITH GLASSMORPHISM + HOVER ORBIT === */
+        /* === SECTION === */
         .section {
             background: rgba(20, 15, 40, 0.4);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            padding: 45px;
-            margin-bottom: 35px;
+            padding: clamp(20px, 5vw, 45px);
+            margin-bottom: 32px;
             border-radius: 25px;
             border: 1px solid rgba(138, 43, 226, 0.2);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(138, 43, 226, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(138, 43, 226, 0.1);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section::before {
@@ -243,25 +232,14 @@
             background: linear-gradient(135deg, transparent, rgba(138, 43, 226, 0.05));
             opacity: 0;
             transition: opacity 0.4s;
-            pointer-events: none;
         }
 
-        .section:hover {
-            transform: translateY(-12px) scale(1.01);
-            box-shadow: 
-                0 20px 50px rgba(138, 43, 226, 0.3),
-                0 0 40px rgba(102, 126, 234, 0.2);
-            border-color: rgba(138, 43, 226, 0.5);
-        }
-
-        .section:hover::before {
-            opacity: 1;
-        }
+        .section:hover::before { opacity: 1; }
 
         h2 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2.4em;
-            margin-bottom: 25px;
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            margin-bottom: 20px;
             color: #d8b4fe;
             text-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
             position: relative;
@@ -278,33 +256,34 @@
             border-radius: 2px;
         }
 
-        /* === SECTION IMAGE === */
-        .section-img {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            border: 2px solid rgba(138, 43, 226, 0.3);
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
-            transition: all 0.4s ease;
+        /* === INFO GRID === */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+            font-size: 1.05em;
         }
 
-        .section-img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.6);
+        .info-grid div {
+            background: rgba(102, 126, 234, 0.15);
+            padding: 10px 14px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            backdrop-filter: blur(5px);
         }
 
-        /* === SKILLS WITH ORBITAL TAGS + CLICKABLE LINKS === */
+        /* === SKILLS GRID === */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-top: 10px;
         }
 
         .skill-tag {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.25));
-            padding: 16px 24px;
+            padding: 14px 20px;
             border-radius: 50px;
             text-align: center;
             border: 1px solid rgba(138, 43, 226, 0.3);
@@ -319,60 +298,39 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 0.95em;
         }
 
-        .skill-tag::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
-            background: radial-gradient(circle, rgba(138, 43, 226, 0.4), transparent);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.6s ease;
-            z-index: -1;
-        }
+        .skill-tag i { margin-right: 6px; font-size: 1.1em; }
 
         .skill-tag:hover {
-            transform: translateY(-5px) scale(1.08);
+            transform: translateY(-4px) scale(1.06);
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.7);
             border-color: var(--primary);
         }
 
-        .skill-tag:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .skill-tag i {
-            margin-right: 8px;
-            font-size: 1.1em;
-        }
-
-        /* === PROJECT CARDS WITH 3D TILT === */
-        .project-card {
+        /* === PROJECT & EDU CARDS === */
+        .project-card, .edu-card {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-            padding: 28px;
+            padding: 22px;
             border-radius: 20px;
-            margin-bottom: 22px;
+            margin-bottom: 16px;
             border: 1px solid rgba(138, 43, 226, 0.3);
             transition: all 0.4s ease;
             position: relative;
             transform-style: preserve-3d;
         }
 
-        .project-card:hover {
-            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateZ(20px);
-            box-shadow: 
-                0 20px 40px rgba(138, 43, 226, 0.4),
-                0 0 40px rgba(102, 126, 234, 0.3);
+        .project-card:hover, .edu-card:hover {
+            transform: perspective(1000px) rotateX(3deg) rotateY(3deg) translateZ(12px);
+            box-shadow: 0 16px 36px rgba(138, 43, 226, 0.35), 0 0 35px rgba(102, 126, 234, 0.25);
         }
 
-        .project-card h3 {
+        .project-card h3, .edu-card h3 {
             color: #c8b6ff;
-            margin-bottom: 12px;
-            font-size: 1.4em;
+            margin-bottom: 10px;
+            font-size: 1.35em;
         }
 
         .project-card a {
@@ -395,16 +353,106 @@
             transform: translateX(5px);
         }
 
-        /* === CONTACT WITH HOVER ICONS === */
+        /* === GALLERY SLIDER === */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.4);
+        }
+
+        .gallery-slider {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .gallery-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            object-fit: contain;
+            display: block;
+            background: rgba(20, 15, 40, 0.8);
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(138, 43, 226, 0.8);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .gallery-nav:hover {
+            background: rgba(138, 43, 226, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.8);
+        }
+
+        .gallery-nav.prev { left: 20px; }
+        .gallery-nav.next { right: 20px; }
+
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .gallery-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(138, 43, 226, 0.3);
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.8);
+        }
+
+        .gallery-counter {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.1em;
+            color: #c8b6ff;
+            letter-spacing: 1px;
+        }
+
+        /* === CONTACT === */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 22px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
         }
 
         .contact-item {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-            padding: 25px;
+            padding: 22px;
             border-radius: 20px;
             border: 1px solid rgba(138, 43, 226, 0.3);
             transition: all 0.4s ease;
@@ -414,14 +462,14 @@
         }
 
         .contact-item i {
-            font-size: 2em;
-            margin-bottom: 15px;
+            font-size: 1.9em;
+            margin-bottom: 12px;
             color: var(--primary);
             transition: all 0.4s;
         }
 
         .contact-item:hover {
-            transform: translateY(-8px) scale(1.05);
+            transform: translateY(-6px) scale(1.04);
             box-shadow: 0 0 40px rgba(138, 43, 226, 0.6);
         }
 
@@ -438,41 +486,49 @@
             transition: color 0.3s;
         }
 
-        .contact-item a:hover {
-            color: #fff;
-        }
+        .contact-item a:hover { color: #fff; }
 
         /* === SCROLL INDICATOR === */
         .scroll-indicator {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             width: 100%;
             height: 4px;
             background: rgba(138, 43, 226, 0.2);
             z-index: 100;
-            transform-origin: left;
             transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
         }
 
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5em; }
             .orbit-container { width: 200px; height: 200px; }
             .profile-img { width: 170px; height: 170px; }
-            .section { padding: 25px; }
             .skills-grid { grid-template-columns: 1fr 1fr; }
+            .gallery-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
+            }
+            .gallery-nav.prev { left: 10px; }
+            .gallery-nav.next { right: 10px; }
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: 2em; }
-            .section { padding: 20px; }
-            .contact-grid { grid-template-columns: 1fr; }
+            .container { padding: 12px; }
+            .section { padding: 20px; margin-bottom: 24px; }
+            .contact-grid, .info-grid { grid-template-columns: 1fr; }
+            .gallery-nav {
+                width: 35px;
+                height: 35px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Cosmic Background Layers -->
+    <!-- Background -->
     <div class="cosmic-bg" id="nebula"></div>
     <div class="cosmic-bg" id="stars"></div>
     <div class="cosmic-bg" id="stars2"></div>
@@ -482,50 +538,48 @@
     <div class="scroll-indicator" id="scrollIndicator"></div>
 
     <div class="container">
+        <!-- Header -->
         <header>
             <div class="orbit-container">
                 <div class="orbit-ring" style="--rotate: 30deg;"></div>
                 <div class="orbit-ring" style="--rotate: 75deg;"></div>
                 <div class="profile-img"></div>
             </div>
-            <h1>Yotvarit Artnonla</h1>
-            <h1>ยศวริศ อาจนนท์ลา</h1>
-            <p class="subtitle">นักศึกษาเทคโนโลยีสารสนเทศ | IT Student | Cosmic Developer</p>
-            <p class="subtitle">มหาวิทยาลัยราชภัฏอุดรธานี (ศูนย์สามพร้าว) | ปี 3</p>
+            <h1>Yotvarit Artnonla 🚀</h1>
+            <h1>ยศวริศ อาจนนท์ลา ✨</h1>
+            <p class="subtitle">นักศึกษาเทคโนโลยีสารสนเทศ 💻 | IT Student | Cosmic Developer 🌌</p>
+            <p class="subtitle">มหาวิทยาลัยราชภัฏอุดรธานี (ศูนย์สามพร้าว) 🎓 | ปี 3</p>
         </header>
 
         <!-- ข้อมูลส่วนตัว -->
         <div class="section">
-            <h2>ข้อมูลส่วนตัว</h2>
-            <img src="https://i.imgur.com/0nYqV8Y.jpg" alt="Y-otvarit Artnonla" class="section-img">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
-                <div><strong>เพศ:</strong> ชาย</div>
-                <div><strong>วันเกิด:</strong> 1 มกราคม 2548</div>
+            <h2>📋 ข้อมูลส่วนตัว</h2>
+            <div class="info-grid">
+                <div><strong>เพศ:</strong> ชาย 👨</div>
+                <div><strong>วันเกิด:</strong> 1 มกราคม 2548 🎂</div>
                 <div><strong>อายุ:</strong> 20 ปี</div>
-                <div><strong>สัญชาติ:</strong> ไทย</div>
-                <div><strong>สถานะ:</strong> โสด</div>
+                <div><strong>สัญชาติ:</strong> ไทย 🇹🇭</div>
+                <div><strong>สถานะ:</strong> โสด 💙</div>
             </div>
         </div>
 
         <!-- ความสนใจ -->
         <div class="section">
-            <h2>ความสนใจ</h2>
-            <img src="https://i.imgur.com/5zL9k8c.jpg" alt="Science Week 2022" class="section-img">
+            <h2>🌟 ความสนใจ</h2>
             <div class="skills-grid">
-                <div class="skill-tag">AI & Technology</div>
-                <div class="skill-tag">Web Development</div>
-                <div class="skill-tag">Investing</div>
-                <div class="skill-tag">Global Finance</div>
-                <div class="skill-tag">Art & Graphics</div>
+                <div class="skill-tag">🤖 AI & Technology</div>
+                <div class="skill-tag">🌐 Web Development</div>
+                <div class="skill-tag">📈 Investing</div>
+                <div class="skill-tag">💰 Global Finance</div>
+                <div class="skill-tag">🎨 Art & Graphics</div>
             </div>
         </div>
 
         <!-- ทักษะ -->
         <div class="section">
-            <h2>ทักษะ</h2>
-            <img src="https://i.imgur.com/8mP5vJt.jpg" alt="Robot Competition" class="section-img">
+            <h2>⚡ ทักษะ</h2>
 
-            <h3 style="color: #c8b6ff; margin: 25px ilder; font-size: 1.5em;">Programming</h3>
+            <h3 style="color: #c8b6ff; margin: 28px 0 16px; font-size: 1.5em;">💻 Programming</h3>
             <div class="skills-grid">
                 <a href="https://www.python.org/" target="_blank" class="skill-tag"><i class="fab fa-python"></i> Python</a>
                 <a href="https://www.oracle.com/java/" target="_blank" class="skill-tag"><i class="fab fa-java"></i> Java</a>
@@ -537,7 +591,7 @@
                 <a href="https://dart.dev/" target="_blank" class="skill-tag"><i class="fas fa-mobile-alt"></i> Dart</a>
             </div>
 
-            <h3 style="color: #c8b6ff; margin: 35px 0 15px; font-size: 1.5em;">Tools & Software</h3>
+            <h3 style="color: #c8b6ff; margin: 32px 0 16px; font-size: 1.5em;">🛠️ Tools & Software</h3>
             <div class="skills-grid">
                 <a href="https://github.com/" target="_blank" class="skill-tag"><i class="fab fa-github"></i> Git & GitHub</a>
                 <a href="https://code.visualstudio.com/" target="_blank" class="skill-tag"><i class="fas fa-code"></i> VS Code</a>
@@ -549,7 +603,7 @@
                 <a href="https://www.mysql.com/" target="_blank" class="skill-tag"><i class="fas fa-database"></i> SQL</a>
             </div>
 
-            <h3 style="color: #c8b6ff; margin: 35px 0 15px; font-size: 1.5em;">AI Tools</h3>
+            <h3 style="color: #c8b6ff; margin: 32px 0 16px; font-size: 1.5em;">🤖 AI Tools</h3>
             <div class="skills-grid">
                 <a href="https://chat.openai.com/" target="_blank" class="skill-tag"><i class="fas fa-robot"></i> ChatGPT</a>
                 <a href="https://claude.ai/" target="_blank" class="skill-tag"><i class="fas fa-brain"></i> Claude AI</a>
@@ -561,39 +615,32 @@
 
         <!-- ผลงาน -->
         <div class="section">
-            <h2>ผลงาน</h2>
-            <img src="https://i.imgur.com/3vL9k8c.jpg" alt="Robot Building" class="section-img">
-            
+            <h2>🚀 ผลงาน</h2>
             <div class="project-card">
                 <h3>🛒 E-Commerce Website</h3>
                 <p>เว็บไซต์ขายของออนไลน์เต็มรูปแบบ</p>
                 <a href="https://github.com/OTEROBOT/e-commerce" target="_blank">GitHub Repository</a>
             </div>
-
             <div class="project-card">
                 <h3>🐕 ระบบจัดการฟาร์มสุนัข</h3>
                 <p>พัฒนาด้วย C# + Visual Studio 2022</p>
                 <a href="https://github.com/OTEROBOT/SSMS_vscode_IT27308" target="_blank">GitHub Repository</a>
             </div>
-
             <div class="project-card">
-                <h3>📱 แอปแผนที่</h3>
+                <h3>🗺️ แอปแผนที่</h3>
                 <p>Flutter + Dart Cross-platform</p>
                 <a href="https://github.com/OTEROBOT/flutter_application_1" target="_blank">GitHub Repository</a>
             </div>
-
             <div class="project-card">
-                <h3>🤖 AI ทำนายโรคเบาหวาน</h3>
+                <h3>🏥 AI ทำนายโรคเบาหวาน</h3>
                 <p>Machine Learning + Data Analysis</p>
                 <a href="https://github.com/OTEROBOT/AI_UDRU68IT" target="_blank">GitHub Repository</a>
             </div>
-
             <div class="project-card">
-                <h3>🎮 Running Time Parkour</h3>
+                <h3>🏃 Running Time Parkour</h3>
                 <p>เกม 3D PC ด้วย Unity Engine</p>
                 <a href="https://www.facebook.com/ys.w.ris.xac.nnth.la/posts/pfbid0qdFWQJbCPidKpEiMfzNGU67EmXgGZhbPTJzJTsAvCndKE5Ahd668hjvxqSKJFDfMl" target="_blank">ดูเดโมเกม</a>
             </div>
-
             <div class="project-card">
                 <h3>🌙 Midnight Obby</h3>
                 <p>เกม Roblox Multiplayer</p>
@@ -603,70 +650,97 @@
 
         <!-- การศึกษา -->
         <div class="section">
-            <h2>การศึกษา</h2>
-            <img src="https://i.imgur.com/5zL9k8c.jpg" alt="Science Week 2022" class="section-img">
-            
-            <div class="project-card">
+            <h2>🎓 การศึกษา</h2>
+            <div class="edu-card">
                 <h3>มหาวิทยาลัยราชภัฏอุดรธานี</h3>
-                <p>📚 คณะวิทยาศาสตร์ สาขาเทคโนโลยีสารสนเทศ (IT)</p>
-                <p>📍 ศูนย์สามพร้าว</p>
-                <p>📅 2566 - ปัจจุบัน (ปี 3)</p>
+                <p>คณะวิทยาศาสตร์ สาขาเทคโนโลยีสารสนเทศ (IT)</p>
+                <p>ศูนย์สามพร้าว</p>
+                <p>2566 - ปัจจุบัน (ปี 3)</p>
             </div>
-
-            <div class="project-card">
+            <div class="edu-card">
                 <h3>วิทยาลัยอาชีวศึกษาอุดรธานี</h3>
-                <p>📚 ปวช. เทคโนโลยีสารสนเทศ</p>
+                <p>ปวช. เทคโนโลยีสารสนเทศ</p>
             </div>
-
-            <div class="project-card">
+            <div class="edu-card">
                 <h3>โรงเรียนอุดรพิทยานุกูล</h3>
-                <p>📚 มัธยมศึกษาตอนปลาย</p>
+                <p>มัธยมศึกษาตอนปลาย</p>
             </div>
-
-            <div class="project-card">
+            <div class="edu-card">
                 <h3>โรงเรียนอนุบาลอุดรธานี</h3>
-                <p>📚 การศึกษาระดับประถมศึกษา</p>
+                <p>การศึกษาระดับประถมศึกษา</p>
             </div>
-
-            <div class="project-card">
+            <div class="edu-card">
                 <h3>โรงเรียนเทศบาล 3 บ้านเหล่า</h3>
-                <p>📚 การศึกษาระดับประถมศึกษา</p>
+                <p>การศึกษาระดับประถมศึกษา</p>
             </div>
-
-            <div class="project-card">
+            <div class="edu-card">
                 <h3>โรงเรียนอนุบาลสีม่วง อุดรธานี</h3>
-                <p>📚 การศึกษาระดับปฐมวัย</p>
+                <p>การศึกษาระดับปฐมวัย</p>
             </div>
         </div>
 
         <!-- กิจกรรมและผลงาน -->
         <div class="section">
-            <h2>กิจกรรมและผลงาน</h2>
-            <img src="https://i.imgur.com/6vN3k9d.jpg" alt="WRO Thailand 2022" class="section-img">
-            <div class="skills-grid">
-                <div class="skill-tag">เยาวชนสื่อคุณธรรม</div>
-                <div class="skill-tag">แข่งขันหุ่นยนต์ Sumo</div>
-                <div class="skill-tag">WRO Thailand</div>
-                <div class="skill-tag">WRO 2016 Regional</div>
-                <div class="skill-tag">WRO 2017 Regional</div>
+            <h2>🏆 กิจกรรมและผลงาน</h2>
+            
+            <div class="gallery-container">
+                <div class="gallery-slider" id="gallerySlider">
+                    <div class="gallery-slide">
+                        <img src="/images/WRO1.jpg" alt="WRO Competition 1">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="/images/WRO2.jpg" alt="WRO Competition 2">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="/images/เข้าร่วมแข่งขันสัปดาร์วันวิทยาศาสตร์แข่นขันหุ่นยนต์sumo1.jpg" alt="Sumo Robot Competition 1">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="/images/เข้าร่วมแข่งขันสัปดาร์วันวิทยาศาสตร์แข่นขันหุ่นยนต์sumo2.jpg" alt="Sumo Robot Competition 2">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="/images/เข้าร่วมแข่งขันสัปดาร์วันวิทยาศาสตร์แข่นขันหุ่นยนต์sumo3.jpg" alt="Sumo Robot Competition 3">
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="/images/เข้าร่วมอบรม.jpg" alt="Training Workshop">
+                    </div>
+                </div>
+                
+                <button class="gallery-nav prev" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="gallery-nav next" onclick="changeSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="gallery-dots" id="galleryDots"></div>
+            <div class="gallery-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">6</span>
+            </div>
+
+            <div class="skills-grid" style="margin-top: 30px;">
+                <div class="skill-tag">✨ เยาวชนสื่อคุณธรรม</div>
+                <div class="skill-tag">🤖 แข่งขันหุ่นยนต์ Sumo</div>
+                <div class="skill-tag">🏅 WRO Thailand</div>
+                <div class="skill-tag">🌏 WRO 2016 Regional</div>
+                <div class="skill-tag">🌍 WRO 2017 Regional</div>
             </div>
         </div>
 
         <!-- เป้าหมายในอนาคต -->
         <div class="section">
-            <h2>เป้าหมายในอนาคต</h2>
-            <img src="https://i.imgur.com/7mP5vJt.jpg" alt="Robot Competition" class="section-img">
-            <p style="line-height: 2; font-size: 1.1em; color: #e0d9ff;">
-                💼 <strong>นักลงทุนและผู้ประกอบการ</strong> - ปัจจุบันลงทุนในหุ้น, Forex, Crypto (BTC, ETH), ทอง<br>
+            <h2>🎯 เป้าหมายในอนาคต</h2>
+            <p style="line-height: 2; font-size: 1.1em; color: #e0d9ff; margin-top: 20px;">
+                <strong>💼 นักลงทุนและผู้ประกอบการ</strong> - ปัจจุบันลงทุนในหุ้น 📊, Forex 💱, Crypto (BTC, ETH) ₿, ทอง 🥇<br>
                 🏢 ดูแลและบริหารจัดการหอพัก (อสังหาริมทรัพย์)<br>
                 🛍️ มีประสบการณ์ขายสินค้าออนไลน์ผ่าน TikTok, Shopee, Lazada, Line My Shop<br>
-                🚀 <strong>มุ่งมั่นก่อตั้งแบรนด์และบริษัทของตัวเอง</strong>
+                <strong>🌟 มุ่งมั่นก่อตั้งแบรนด์และบริษัทของตัวเอง</strong>
             </p>
         </div>
 
         <!-- ติดต่อ -->
         <div class="section">
-            <h2>ติดต่อ</h2>
+            <h2>📞 ติดต่อ</h2>
             <div class="contact-grid">
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
@@ -708,54 +782,116 @@
     </div>
 
     <script>
-        // Floating Particles
+        // === OPTIMIZED PARTICLES ===
+        let particles = [];
+        const maxParticles = 40;
+
         function createParticle() {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            
-            const size = Math.random() * 4 + 1;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            
-            document.body.appendChild(particle);
-            
+            if (particles.length >= maxParticles) return;
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 3 + 1;
+            p.style.width = p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(p);
+            particles.push(p);
             setTimeout(() => {
-                particle.remove();
+                p.remove();
+                particles = particles.filter(el => el !== p);
             }, 25000);
         }
 
-        setInterval(createParticle, 300);
+        let rafId;
+        function particleLoop() {
+            if (Math.random() < 0.3) createParticle();
+            rafId = requestAnimationFrame(particleLoop);
+        }
+        particleLoop();
 
-        // Scroll indicator
+        // === SCROLL INDICATOR ===
+        const scrollIndicator = document.getElementById('scrollIndicator');
         window.addEventListener('scroll', () => {
-            const scrollPercent = (document.documentElement.scrollTop || document.body.scrollTop) / 
+            const percent = (document.documentElement.scrollTop || document.body.scrollTop) / 
                 ((document.documentElement.scrollHeight || document.body.scrollHeight) - document.documentElement.clientHeight) * 100;
-            document.getElementById('scrollIndicator').style.transform = `scaleX(${scrollPercent / 100})`;
-        });
+            scrollIndicator.style.transform = `scaleX(${percent / 100})`;
+        }, { passive: true });
 
-        // Smooth reveal on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        // === SMOOTH REVEAL ===
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.section, .project-card, .skill-tag').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // === CLEANUP ===
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(rafId);
+            particles.forEach(p => p.remove());
+        });
+
+        // === GALLERY SLIDER ===
+        let currentSlide = 0;
+        const slider = document.getElementById('gallerySlider');
+        const slides = document.querySelectorAll('.gallery-slide');
+        const totalSlides = slides.length;
+        const dotsContainer = document.getElementById('galleryDots');
+        const currentSlideSpan = document.getElementById('currentSlide');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'gallery-dot';
+            if (i === 0) dot.classList.add('active');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            currentSlideSpan.textContent = currentSlide + 1;
+            
+            // Update dots
+            document.querySelectorAll('.gallery-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        // Auto-play (optional)
+        let autoPlayInterval = setInterval(() => changeSlide(1), 5000);
+
+        // Pause auto-play on hover
+        document.querySelector('.gallery-container').addEventListener('mouseenter', () => {
+            clearInterval(autoPlayInterval);
+        });
+
+        document.querySelector('.gallery-container').addEventListener('mouseleave', () => {
+            autoPlayInterval = setInterval(() => changeSlide(1), 5000);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
         });
     </script>
 </body>
